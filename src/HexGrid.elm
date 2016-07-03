@@ -354,7 +354,7 @@ directionTo p1 p2 =
   case line p1 p2 of
     _ :: neighbor :: _ ->
       let
-        (dx, dz) = pointSubtract p1 neighbor
+        (dx, dz) = pointSubtract neighbor p1
       in
         case (dx, dz) of
           ( 1,  0) -> Just 0

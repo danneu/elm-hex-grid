@@ -110,6 +110,60 @@ viewDistance model =
     []
     (List.map renderPoint (Dict.toList dict))
 
+
+viewDirectionTo : Model -> Svg Msg
+viewDirectionTo model =
+  let
+    (HexGrid _ dict) = model.grid
+
+    cornersToStr corners =
+      corners
+        |> List.map (\ (x, y) -> toString x ++ "," ++ toString y)
+        |> String.join " "
+
+    -- not flipped this time
+    layout = HexGrid.mkPointyTop 30 30 (600/2) (570/2)
+
+    direction = HexGrid.directionTo model.activePoint model.hoverPoint
+
+    renderPoint (point, tile) =
+      let
+        (centerX, centerY) = HexGrid.hexToPixel layout point
+        corners = HexGrid.polygonCorners layout point
+      in
+        g
+        [ onClick (ActivePoint point)
+        , onMouseOver (HoverPoint point)
+        ]
+        [ polygon
+          [ points (cornersToStr <| corners)
+          , stroke "black"
+          , fill <| if model.activePoint == point  then
+                      "grey"
+                    else if model.hoverPoint == point then
+                      "#f1c40f" -- gold
+                    else
+                      "white"
+          ]
+          []
+        , text'
+          [ x (toString <| centerX - 10)
+          , y (toString <| centerY - 5)
+          , Hattr.style [ ("font-size", "18px") ]
+          ]
+          [ text <| if point == model.hoverPoint then
+                      Maybe.withDefault "--" (Maybe.map toString direction)
+                    else
+                      ""
+          ]
+        ]
+  in
+    Svg.svg
+    []
+    (List.map renderPoint (Dict.toList dict))
+
+
+
 viewRange : Model -> Svg Msg
 viewRange model =
   let
@@ -562,8 +616,6 @@ viewPathfinding model =
                       "#3498db"
                     else if model.hoverPoint == point then
                       "#f1c40f"
-                    else if List.member point path then
-                      "#bdc3c7"
                     else
                       "white"
           ]
@@ -647,8 +699,6 @@ viewPathfindingWithCost model =
                       "#3498db"
                     else if model.hoverPoint == point then
                       "#f1c40f"
-                    else if List.member point path then
-                      "#bdc3c7"
                     else
                       "white"
           ]
@@ -720,6 +770,40 @@ view model =
     , div
       [ class "col-lg-6" ]
       [ (viewDistance model)
+      ]
+    ]
+    -- DIRECTION
+  , hr [] []
+  , div
+    [ class "row" ]
+    [ div
+      [ class "col-lg-6" ]
+      [ Html.h2 [] [ Html.text "Direction" ]
+      , Html.p
+        []
+        [ Html.text "Get the numerical direction (0-5) to a destination point."
+        ]
+      , Html.p
+        []
+        [ Html.text "0 starts East and increments going counterclockwise."
+        ]
+      , let
+          start = model.activePoint
+          end = model.hoverPoint
+          direction = HexGrid.directionTo start end
+        in
+        Html.pre
+        []
+        [ Html.text
+            <| "HexGrid.directionTo " ++ (toString start)
+               ++ " " ++ (toString end)
+        , Html.br [] []
+        , Html.text <| "=> " ++ (toString direction)
+        ]
+      ]
+    , div
+      [ class "col-lg-6" ]
+      [ (viewDirectionTo model)
       ]
     ]
     -- RANGE
@@ -966,9 +1050,9 @@ view model =
       , Html.p
         [ class "text-muted" ]
         [ Html.text
-            "In this example, roads (red tiles) have a cost of 1 while blank
-             tiles have a cost of 6. The pathfinder equates a chain of 6 road
-             tiles the same as 1 blank tile."
+            "In this example, roads (green tiles) have a cost of 1 while blank
+             tiles have a cost of 6. You'll notice that the pathfinder will vastly
+             prefer a chain of roads."
          ]
       , let
           start = (0,0)
