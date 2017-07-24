@@ -8,10 +8,9 @@ import Dict
 import Json.Decode as JD
 -- 3rd
 import Html exposing (div, hr)
-import Html.App
 import Html.Attributes as Hattr exposing (class)
 import Html.Events as Hevent
-import Svg exposing (Svg, text, text', polygon, g)
+import Svg exposing (Svg, text, text_, polygon, g)
 import Svg.Attributes as Sattr exposing (x, y, stroke, fill, points)
 import Svg.Events as Sevent exposing (onClick, onMouseOver)
 -- 1st
@@ -146,7 +145,7 @@ viewDirectionTo model =
                       "white"
           ]
           []
-        , text'
+        , text_
           [ x (toString <| centerX - 10)
           , y (toString <| centerY - 5)
           , Hattr.style [ ("font-size", "18px") ]
@@ -307,7 +306,7 @@ viewReachable model =
                       "#bdc3c7"
           ]
           []
-        , text'
+        , text_
           [ x (toString <| centerX - 10)
           , y (toString <| centerY - 5)
           , Hattr.style [ ("font-size", "18px") ]
@@ -317,7 +316,7 @@ viewReachable model =
                     else
                       ""
           ]
-        , text'
+        , text_
           [ stroke "blue"
           , x (toString <| centerX - 5)
           , y (toString <| centerY + 10)
@@ -382,7 +381,7 @@ viewRotation model =
                       "white"
           ]
           []
-        , text'
+        , text_
           [ stroke "white"
           , fill "white"
           , x (toString <| centerX - 20)
@@ -543,7 +542,7 @@ viewFogOfWar model =
                       "white"
           ]
           []
-        , text'
+        , text_
           [ stroke "white"
           , fill "white"
           , x (toString <| centerX - 10)
@@ -557,7 +556,7 @@ viewFogOfWar model =
                     else
                       ""
           ]
-        , text'
+        , text_
           [ stroke "black"
           , fill "black"
           , x (toString <| centerX - 8)
@@ -620,7 +619,7 @@ viewPathfinding model =
                       "white"
           ]
           []
-        , text'
+        , text_
           [ stroke "black"
           , fill "black"
           , x (toString <| centerX - 10)
@@ -634,7 +633,7 @@ viewPathfinding model =
                     else
                       ""
           ]
-        , text'
+        , text_
           [ stroke "black"
           , fill "black"
           , x (toString <| centerX - 8)
@@ -703,7 +702,7 @@ viewPathfindingWithCost model =
                       "white"
           ]
           []
-        , Svg.text'
+        , Svg.text_
           [ Sattr.stroke "black"
           , Sattr.fill "black"
           , Sattr.x (toString <| centerX - 10)
@@ -716,7 +715,7 @@ viewPathfindingWithCost model =
                         else
                           ""
           ]
-        , Svg.text'
+        , Svg.text_
           [ Sattr.stroke "black"
           , Sattr.fill "black"
           , Sattr.x (toString <| centerX - 8)
@@ -844,8 +843,8 @@ view model =
       [ Html.h2 [] [ Html.text "Reachability and Obstacles" ]
       , Html.p
         []
-        [ Html.text "Determine the reachability of all tiles from a point,
-                     while avoiding obstacles."
+        [ Html.text """Determine the reachability of all tiles from a point,
+                       while avoiding obstacles."""
         ]
       , div
         [ class "panel panel-default" ]
@@ -853,7 +852,7 @@ view model =
           [ class "panel-body" ]
             [ Html.text "Max steps:"
           , Html.input
-            [ Hattr.type' "range"
+            [ Hattr.type_ "range"
             , Hattr.step "1"
             , Hattr.min "0"
             , Hattr.max "20"
@@ -1044,15 +1043,15 @@ view model =
         ]
       , Html.p
         []
-        [ Html.text "You can weigh tiles with a movement cost. The pathfinder
-                     will prefer the cheapest route."
+        [ Html.text """You can weigh tiles with a movement cost. The pathfinder
+                       will prefer the cheapest route."""
         ]
       , Html.p
         [ class "text-muted" ]
         [ Html.text
-            "In this example, roads (green tiles) have a cost of 1 while blank
-             tiles have a cost of 6. You'll notice that the pathfinder will vastly
-             prefer a chain of roads."
+            """In this example, roads (green tiles) have a cost of 1 while blank
+               tiles have a cost of 6. You'll notice that the pathfinder will vastly
+               prefer a chain of roads."""
          ]
       , let
           start = (0,0)
@@ -1090,7 +1089,7 @@ view model =
   ]
 
 main =
-  Html.App.beginnerProgram
+  Html.beginnerProgram
     { model = init
     , update = update
     , view = view
