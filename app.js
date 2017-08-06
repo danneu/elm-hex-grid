@@ -6204,8 +6204,8 @@ var _danneu$elm_hex_grid$HexGrid$pathGraphHelp2 = F5(
 					return _elm_lang$core$Native_Utils.crashCase(
 						'HexGrid',
 						{
-							start: {line: 679, column: 18},
-							end: {line: 683, column: 46}
+							start: {line: 677, column: 18},
+							end: {line: 681, column: 46}
 						},
 						_p41)('Impossible');
 				}
@@ -10930,7 +10930,7 @@ var _danneu$elm_hex_grid$Main$viewReachableDemo = function (demo) {
 																			ctor: '::',
 																			_0: A2(
 																				_elm_lang$html$Html_Events$on,
-																				'change',
+																				'input',
 																				A2(
 																					_elm_lang$core$Json_Decode$map,
 																					_danneu$elm_hex_grid$Main$SetMaxSteps(demo),
