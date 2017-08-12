@@ -1,8 +1,11 @@
+'use strict'
 
-// pull in desired CSS/SASS files
-require( './style.css' );
+require('./style.css')
 
-// inject bundled Elm app into div#main
+// Require index.html so it gets copied to dist
+require('./index.html')
 
-var Elm = require( './Sandbox' );
-Elm.Sandbox.embed( document.getElementById( 'main' ) );
+var Elm = require('./Main.elm')
+var mountNode = document.getElementById('main')
+
+var app = Elm.Main.embed(mountNode)

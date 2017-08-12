@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <meta charSet="utf-8"/>
-    <title>danneu/elm-hex-grid demo</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <meta charset="utf-8" />
+    <title>elm-hex-grid</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   </head>
   <body>
     <div class="page-header">
@@ -17,16 +17,22 @@
           <a href="https://github.com/danneu/elm-hex-grid">
             danneu/elm-hex-grid
           </a>
-        </li>
-        <li>
-          Thanks:
-          <a href="http://www.redblobgames.com/grids/hexagons/">
-            redblobgames.com/grids/hexagons</a>,
-          <a href="https://github.com/deadfoxygrandpa/HexGrid">
-            deadfoxygrandpa/HexGrid</a>
+          <li>
+            Thanks:
+            <a href="http://www.redblobgames.com/grids/hexagons/">
+              redblobgames.com/grids/hexagons</a>,
+            <a href="https://github.com/deadfoxygrandpa/HexGrid">
+              deadfoxygrandpa/HexGrid</a>
+          </li>
         </li>
       </ul>
     </div>
-    <div id="main"></div>
+    <div class="alert alert-warning text-center">
+      Grids take a moment to become responsive because this demo is very unoptimized. Clicking seems to help.
+    </div>
+    <div class="container">
+      <div id="main"></div>
+    </div>
+    <script src="./app.js"></script>
   </body>
 </html>
