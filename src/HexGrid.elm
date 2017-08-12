@@ -29,10 +29,10 @@ empty : Int -> a -> HexGrid a
 empty levels a =
   let
     row y =
-      [0..levels*2 - (abs (levels - y))]
+      (List.range 0 (levels*2 - (abs (levels - y))))
       |> List.map (\n -> (((n - (min y levels)), (y - levels)), a))
   in
-    HexGrid levels (Dict.fromList <| List.concatMap (\n -> row n) [0..2*levels])
+    HexGrid levels (Dict.fromList <| List.concatMap (\n -> row n) (List.range 0 (2*levels)))
 
 
 -- Create a grid from a list of (Point, val) tuples
@@ -134,7 +134,7 @@ pathGraph start end obstacles grid =
             cameFrom
           else
             let
-              (frontier', cameFrom') =
+              (frontier_, cameFrom_) =
                 List.foldl
                   (pathGraphHelp grid curr)
                   (rest, cameFrom)
@@ -142,7 +142,7 @@ pathGraph start end obstacles grid =
                     |> List.filter (\p -> not <| Set.member p obstacles)
                   )
             in
-              accum frontier' cameFrom'
+              accum frontier_ cameFrom_
   in
     accum [start] (Dict.singleton start Nothing)
 
@@ -191,7 +191,7 @@ fringes start maxSteps obstacles =
                 Set.toList points
               Nothing ->
                 Debug.crash "Impossible"
-          (visited', fringeLevel) =
+          (visited_, fringeLevel) =
             List.foldl
               fringesHelp
               (visited, Set.empty)
@@ -199,7 +199,7 @@ fringes start maxSteps obstacles =
                |> List.filter (\p -> not <| Set.member p obstacles)
               )
         in
-          accum (currStep + 1) visited' (Array.push fringeLevel fringe)
+          accum (currStep + 1) visited_ (Array.push fringeLevel fringe)
 
   in
     -- Short-circuit if starting point is an obstacle
@@ -417,10 +417,12 @@ line p1 p2 =
     []
   else
     let
-      n = toFloat <| distance p1 p2
-      pts = [0..n]
+      dist = distance p1 p2
+      n = toFloat dist
+      pts = List.map toFloat (List.range 0 dist)
     in
-      List.map (\i -> pointRound <| (p1 `pointMult` (1 - i/n)) `pointAdd` (p2 `pointMult` (i/n))) pts
+      List.map (\i -> pointRound <| pointAdd (pointMult p1 (1 - i/n))
+                                             (pointMult p2 (i/n))) pts
 
 
 {-| Gets list of all points within `n` radius of given point.
@@ -431,9 +433,9 @@ range n (x, z) =
     (\dx ->
       List.map
         (\dz -> toPoint (x + dx) (z + dz))
-        [max -n (-dx - n)..min n (-dx + n)]
+        (List.range (max -n (-dx - n)) (min n (-dx + n)))
     )
-    [-n..n]
+    (List.range -n n)
 
 
 {-| Returns list of points that form a ring of radius `r` around
@@ -448,9 +450,9 @@ ring r (x, z) =
       []
     else
       List.scanl
-          (\i p' -> neighbor i p')
+          (\i p_ -> neighbor i p_)
           p
-          (List.concatMap (\j -> List.repeat r j) [0..5])
+          (List.concatMap (\j -> List.repeat r j) (List.range 0 5))
 
 {-| Start at the center and spiral outwards until all points at
 radius `r` are included. Spiral jumps out to the southwest tile.
@@ -498,9 +500,9 @@ pointRound (x, z) =
   let
     y = -x - z
     (rx, ry, rz) = (round x, round y, round z)
-    dx = abs (rx - x)
-    dy = abs (ry - y)
-    dz = abs (rz - z)
+    dx = abs (toFloat rx - x)
+    dy = abs (toFloat ry - y)
+    dz = abs (toFloat rz - z)
   in
     if dx > dy && dx > dz then
       ((-ry - rz), rz)
@@ -645,13 +647,13 @@ pathGraph2 calcCost start end grid =
             cameFrom
           else
             let
-              (frontier', costSoFar', cameFrom') =
+              (frontier_, costSoFar_, cameFrom_) =
                 List.foldl
                   (pathGraphHelp2 calcCost grid curr)
                   (PairingHeap.fromList rest, costSoFar, cameFrom)
                   (neighbors curr)
             in
-              accum frontier' costSoFar' cameFrom'
+              accum frontier_ costSoFar_ cameFrom_
   in
     accum
       (PairingHeap.singleton 0 start)
