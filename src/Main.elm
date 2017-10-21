@@ -1,9 +1,5 @@
 module Main exposing (..)
 
--- Core
--- 3rd
--- 1st
-
 import Dict
 import HexGrid exposing (Direction(..), HexGrid(..))
 import Html exposing (Html, a, div, h1, hr, small)
@@ -110,35 +106,35 @@ update msg model =
                 nextDemo =
                     { prevDemo | activePoint = point }
             in
-            Dict.insert nextDemo.name nextDemo model
+                Dict.insert nextDemo.name nextDemo model
 
         HoverPoint prevDemo point ->
             let
                 nextDemo =
                     { prevDemo | hoverPoint = point }
             in
-            Dict.insert nextDemo.name nextDemo model
+                Dict.insert nextDemo.name nextDemo model
 
         SetMaxSteps prevDemo steps ->
             let
                 nextDemo =
                     { prevDemo | maxSteps = steps }
             in
-            Dict.insert nextDemo.name nextDemo model
+                Dict.insert nextDemo.name nextDemo model
 
         InsertObstacle prevDemo point ->
             let
                 nextDemo =
                     { prevDemo | obstacles = Set.insert point prevDemo.obstacles }
             in
-            Dict.insert nextDemo.name nextDemo model
+                Dict.insert nextDemo.name nextDemo model
 
         RemoveObstacle prevDemo point ->
             let
                 nextDemo =
                     { prevDemo | obstacles = Set.remove point prevDemo.obstacles }
             in
-            Dict.insert nextDemo.name nextDemo model
+                Dict.insert nextDemo.name nextDemo model
 
 
 viewDistance : Demo -> Svg Msg
@@ -168,31 +164,31 @@ viewDistance model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onClick (ActivePoint model point)
-                , onMouseOver (HoverPoint model point)
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , stroke "black"
-                    , fill <|
-                        if model.activePoint == point then
-                            "grey"
-                        else if model.hoverPoint == point then
-                            "#f1c40f"
-                            -- gold
-                        else if Set.member point pointsInLine then
-                            "#bdc3c7"
-                            -- light grey
-                        else
-                            "white"
+                g
+                    [ onClick (ActivePoint model point)
+                    , onMouseOver (HoverPoint model point)
                     ]
-                    []
-                ]
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , stroke "black"
+                        , fill <|
+                            if model.activePoint == point then
+                                "grey"
+                            else if model.hoverPoint == point then
+                                "#f1c40f"
+                                -- gold
+                            else if Set.member point pointsInLine then
+                                "#bdc3c7"
+                                -- light grey
+                            else
+                                "white"
+                        ]
+                        []
+                    ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewDistanceDemo : Demo -> Html Msg
@@ -259,39 +255,39 @@ viewDirectionTo model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onClick (ActivePoint model point)
-                , onMouseOver (HoverPoint model point)
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , stroke "black"
-                    , fill <|
-                        if model.activePoint == point then
-                            "grey"
-                        else if model.hoverPoint == point then
-                            "#f1c40f"
-                            -- gold
-                        else
-                            "white"
+                g
+                    [ onClick (ActivePoint model point)
+                    , onMouseOver (HoverPoint model point)
                     ]
-                    []
-                , text_
-                    [ x (toString <| centerX - 10)
-                    , y (toString <| centerY - 5)
-                    , Hattr.style [ ( "font-size", "18px" ) ]
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , stroke "black"
+                        , fill <|
+                            if model.activePoint == point then
+                                "grey"
+                            else if model.hoverPoint == point then
+                                "#f1c40f"
+                                -- gold
+                            else
+                                "white"
+                        ]
+                        []
+                    , text_
+                        [ x (toString <| centerX - 10)
+                        , y (toString <| centerY - 5)
+                        , Hattr.style [ ( "font-size", "18px" ) ]
+                        ]
+                        [ text <|
+                            if point == model.hoverPoint then
+                                Maybe.withDefault "--" (Maybe.map toString direction)
+                            else
+                                ""
+                        ]
                     ]
-                    [ text <|
-                        if point == model.hoverPoint then
-                            Maybe.withDefault "--" (Maybe.map toString direction)
-                        else
-                            ""
-                    ]
-                ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewDirectionToDemo : Demo -> Html Msg
@@ -319,16 +315,16 @@ viewDirectionToDemo demo =
                 direction =
                     HexGrid.directionTo start end
               in
-              Html.pre
-                []
-                [ Html.text <|
-                    "HexGrid.directionTo "
-                        ++ toString start
-                        ++ " "
-                        ++ toString end
-                , Html.br [] []
-                , Html.text <| "=> " ++ toString direction
-                ]
+                Html.pre
+                    []
+                    [ Html.text <|
+                        "HexGrid.directionTo "
+                            ++ toString start
+                            ++ " "
+                            ++ toString end
+                    , Html.br [] []
+                    , Html.text <| "=> " ++ toString direction
+                    ]
             ]
         , div
             [ class "col-lg-6" ]
@@ -365,31 +361,31 @@ viewRange model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onClick (ActivePoint model point)
-                , onMouseOver (HoverPoint model point)
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , stroke "black"
-                    , fill <|
-                        if model.activePoint == point then
-                            "grey"
-                        else if model.hoverPoint == point then
-                            "#f1c40f"
-                            -- gold
-                        else if Set.member point pointsInRange then
-                            "#bdc3c7"
-                            -- light grey
-                        else
-                            "white"
+                g
+                    [ onClick (ActivePoint model point)
+                    , onMouseOver (HoverPoint model point)
                     ]
-                    []
-                ]
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , stroke "black"
+                        , fill <|
+                            if model.activePoint == point then
+                                "grey"
+                            else if model.hoverPoint == point then
+                                "#f1c40f"
+                                -- gold
+                            else if Set.member point pointsInRange then
+                                "#bdc3c7"
+                                -- light grey
+                            else
+                                "white"
+                        ]
+                        []
+                    ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewRangeDemo : Demo -> Html Msg
@@ -407,16 +403,16 @@ viewRangeDemo demo =
                 distance =
                     HexGrid.distance demo.activePoint demo.hoverPoint
               in
-              Html.pre
-                []
-                [ Html.text <|
-                    "HexGrid.range "
-                        ++ toString distance
-                        ++ " "
-                        ++ toString demo.activePoint
-                , Html.br [] []
-                , Html.text <| "=> " ++ (toString <| HexGrid.range distance demo.activePoint)
-                ]
+                Html.pre
+                    []
+                    [ Html.text <|
+                        "HexGrid.range "
+                            ++ toString distance
+                            ++ " "
+                            ++ toString demo.activePoint
+                    , Html.br [] []
+                    , Html.text <| "=> " ++ (toString <| HexGrid.range distance demo.activePoint)
+                    ]
             ]
         , div
             [ class "col-lg-6" ]
@@ -460,28 +456,28 @@ viewRangeIntersection model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onClick (ActivePoint model point)
-                , onMouseOver (HoverPoint model point)
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , fill <|
-                        if Set.member point pointsInIntersection then
-                            "#9b59b6"
-                        else if Set.member point pointsInStaticRange then
-                            "#e74c3c"
-                        else if Set.member point pointsInUserRange then
-                            "#3498db"
-                        else
-                            "white"
+                g
+                    [ onClick (ActivePoint model point)
+                    , onMouseOver (HoverPoint model point)
                     ]
-                    []
-                ]
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , fill <|
+                            if Set.member point pointsInIntersection then
+                                "#9b59b6"
+                            else if Set.member point pointsInStaticRange then
+                                "#e74c3c"
+                            else if Set.member point pointsInUserRange then
+                                "#3498db"
+                            else
+                                "white"
+                        ]
+                        []
+                    ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewReachable : Demo -> Svg Msg
@@ -513,62 +509,62 @@ viewReachable model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onClick <|
-                    if Set.member point model.obstacles then
-                        RemoveObstacle model point
-                    else
-                        InsertObstacle model point
-                , onMouseOver (HoverPoint model point)
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , fill <|
-                        if point == ( 0, 0 ) then
-                            "#3498db"
-                        else if model.hoverPoint == point && Set.member point model.obstacles then
-                            "#c0392b"
-                        else if Set.member point model.obstacles then
-                            "#e74c3c"
-                        else if model.hoverPoint == point then
-                            "#f1c40f"
-                            -- gold
-                        else if Set.member point pointsReachable then
-                            "white"
+                g
+                    [ onClick <|
+                        if Set.member point model.obstacles then
+                            RemoveObstacle model point
                         else
-                            "#bdc3c7"
+                            InsertObstacle model point
+                    , onMouseOver (HoverPoint model point)
                     ]
-                    []
-                , text_
-                    [ x (toString <| centerX - 10)
-                    , y (toString <| centerY - 5)
-                    , Hattr.style [ ( "font-size", "18px" ) ]
-                    ]
-                    [ text <|
-                        if point == ( 0, 0 ) then
-                            "👁"
-                        else
-                            ""
-                    ]
-                , text_
-                    [ stroke "blue"
-                    , x (toString <| centerX - 5)
-                    , y (toString <| centerY + 10)
-                    , Hattr.style [ ( "font-size", "18px" ) ]
-                    ]
-                    [ text <|
-                        case Dict.get point counts of
-                            Nothing ->
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , fill <|
+                            if point == ( 0, 0 ) then
+                                "#3498db"
+                            else if model.hoverPoint == point && Set.member point model.obstacles then
+                                "#c0392b"
+                            else if Set.member point model.obstacles then
+                                "#e74c3c"
+                            else if model.hoverPoint == point then
+                                "#f1c40f"
+                                -- gold
+                            else if Set.member point pointsReachable then
+                                "white"
+                            else
+                                "#bdc3c7"
+                        ]
+                        []
+                    , text_
+                        [ x (toString <| centerX - 10)
+                        , y (toString <| centerY - 5)
+                        , Hattr.style [ ( "font-size", "18px" ) ]
+                        ]
+                        [ text <|
+                            if point == ( 0, 0 ) then
+                                "👁"
+                            else
                                 ""
+                        ]
+                    , text_
+                        [ stroke "blue"
+                        , x (toString <| centerX - 5)
+                        , y (toString <| centerY + 10)
+                        , Hattr.style [ ( "font-size", "18px" ) ]
+                        ]
+                        [ text <|
+                            case Dict.get point counts of
+                                Nothing ->
+                                    ""
 
-                            Just count ->
-                                toString count
+                                Just count ->
+                                    toString count
+                        ]
                     ]
-                ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewReachableDemo : Demo -> Html Msg
@@ -665,56 +661,56 @@ viewRotation model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onMouseOver (HoverPoint model point)
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , fill <|
-                        if point == ( 0, 0 ) then
-                            "grey"
-                        else if model.hoverPoint == point then
-                            "#3498db"
-                            -- blue
-                        else if Set.member point left then
-                            "#2ecc71"
-                            -- green
-                        else if Set.member point right then
-                            "#9b59b6"
-                            -- purple
-                        else if point == reverse then
-                            "#2980b9"
-                            -- dark blue
-                        else
-                            "white"
+                g
+                    [ onMouseOver (HoverPoint model point)
                     ]
-                    []
-                , text_
-                    [ stroke "white"
-                    , fill "white"
-                    , x (toString <| centerX - 20)
-                    , y (toString <| centerY + 5)
-                    , Hattr.style [ ( "font-size", "12px" ) ]
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , fill <|
+                            if point == ( 0, 0 ) then
+                                "grey"
+                            else if model.hoverPoint == point then
+                                "#3498db"
+                                -- blue
+                            else if Set.member point left then
+                                "#2ecc71"
+                                -- green
+                            else if Set.member point right then
+                                "#9b59b6"
+                                -- purple
+                            else if point == reverse then
+                                "#2980b9"
+                                -- dark blue
+                            else
+                                "white"
+                        ]
+                        []
+                    , text_
+                        [ stroke "white"
+                        , fill "white"
+                        , x (toString <| centerX - 20)
+                        , y (toString <| centerY + 5)
+                        , Hattr.style [ ( "font-size", "12px" ) ]
+                        ]
+                        [ text <|
+                            if point == left1 then
+                                "left1"
+                            else if point == left2 then
+                                "left2"
+                            else if point == right1 then
+                                "right1"
+                            else if point == right2 then
+                                "right2"
+                            else if point == reverse then
+                                "left3"
+                            else
+                                ""
+                        ]
                     ]
-                    [ text <|
-                        if point == left1 then
-                            "left1"
-                        else if point == left2 then
-                            "left2"
-                        else if point == right1 then
-                            "right1"
-                        else if point == right2 then
-                            "right2"
-                        else if point == reverse then
-                            "left3"
-                        else
-                            ""
-                    ]
-                ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewRotationDemo : Demo -> Html Msg
@@ -744,32 +740,32 @@ viewRotationDemo demo =
                 right2 =
                     HexGrid.rotate Right right1
               in
-              Html.pre
-                []
-                [ Html.text <|
-                    "HexGrid.rotate Left "
-                        ++ toString demo.hoverPoint
-                , Html.br [] []
-                , Html.text <| "=> " ++ toString left1
-                , Html.br [] []
-                , Html.text <|
-                    "HexGrid.rotate Left "
-                        ++ toString left1
-                , Html.br [] []
-                , Html.text <| "=> " ++ toString left2
-                , Html.br [] []
-                , Html.text <|
-                    "HexGrid.rotate Right "
-                        ++ toString demo.hoverPoint
-                , Html.br [] []
-                , Html.text <| "=> " ++ toString right1
-                , Html.br [] []
-                , Html.text <|
-                    "HexGrid.rotate Right "
-                        ++ toString right1
-                , Html.br [] []
-                , Html.text <| "=> " ++ toString right2
-                ]
+                Html.pre
+                    []
+                    [ Html.text <|
+                        "HexGrid.rotate Left "
+                            ++ toString demo.hoverPoint
+                    , Html.br [] []
+                    , Html.text <| "=> " ++ toString left1
+                    , Html.br [] []
+                    , Html.text <|
+                        "HexGrid.rotate Left "
+                            ++ toString left1
+                    , Html.br [] []
+                    , Html.text <| "=> " ++ toString left2
+                    , Html.br [] []
+                    , Html.text <|
+                        "HexGrid.rotate Right "
+                            ++ toString demo.hoverPoint
+                    , Html.br [] []
+                    , Html.text <| "=> " ++ toString right1
+                    , Html.br [] []
+                    , Html.text <|
+                        "HexGrid.rotate Right "
+                            ++ toString right1
+                    , Html.br [] []
+                    , Html.text <| "=> " ++ toString right2
+                    ]
             ]
         , div
             [ class "col-lg-6" ]
@@ -804,27 +800,27 @@ viewSingleRing model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onMouseOver (HoverPoint model point)
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , fill <|
-                        if point == ( 0, 0 ) then
-                            "grey"
-                        else if model.hoverPoint == point then
-                            "#f1c40f"
-                        else if Set.member point (Set.fromList pointsInRing) then
-                            "#3498db"
-                        else
-                            "white"
+                g
+                    [ onMouseOver (HoverPoint model point)
                     ]
-                    []
-                ]
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , fill <|
+                            if point == ( 0, 0 ) then
+                                "grey"
+                            else if model.hoverPoint == point then
+                                "#f1c40f"
+                            else if Set.member point (Set.fromList pointsInRing) then
+                                "#3498db"
+                            else
+                                "white"
+                        ]
+                        []
+                    ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewSingleRingDemo : Demo -> Html Msg
@@ -848,16 +844,16 @@ viewSingleRingDemo demo =
                 pointsInRing =
                     HexGrid.ring radius center
               in
-              Html.pre
-                []
-                [ Html.text <|
-                    "HexGrid.ring "
-                        ++ toString radius
-                        ++ " "
-                        ++ toString center
-                , Html.br [] []
-                , Html.text <| "=> " ++ toString (HexGrid.ring radius center)
-                ]
+                Html.pre
+                    []
+                    [ Html.text <|
+                        "HexGrid.ring "
+                            ++ toString radius
+                            ++ " "
+                            ++ toString center
+                    , Html.br [] []
+                    , Html.text <| "=> " ++ toString (HexGrid.ring radius center)
+                    ]
             ]
         , div
             [ class "col-lg-6" ]
@@ -893,27 +889,27 @@ viewSpiralOut model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onMouseOver (HoverPoint model point)
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , fill <|
-                        if point == ( 0, 0 ) then
-                            "grey"
-                        else if model.hoverPoint == point then
-                            "#f1c40f"
-                        else if Set.member point pointsInSpiral then
-                            "#3498db"
-                        else
-                            "white"
+                g
+                    [ onMouseOver (HoverPoint model point)
                     ]
-                    []
-                ]
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , fill <|
+                            if point == ( 0, 0 ) then
+                                "grey"
+                            else if model.hoverPoint == point then
+                                "#f1c40f"
+                            else if Set.member point pointsInSpiral then
+                                "#3498db"
+                            else
+                                "white"
+                        ]
+                        []
+                    ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewFogOfWar : Demo -> Svg Msg
@@ -947,68 +943,68 @@ viewFogOfWar model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onMouseOver (HoverPoint model point)
-                , onClick <|
-                    if Set.member point model.obstacles then
-                        RemoveObstacle model point
-                    else
-                        InsertObstacle model point
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , fill <|
-                        if model.hoverPoint == point && Set.member point model.obstacles then
-                            "#c0392b"
-                        else if Set.member point model.obstacles then
-                            "#e74c3c"
-                        else if point == ( 0, 0 ) then
-                            "#3498db"
-                        else if model.hoverPoint == point then
-                            "#f1c40f"
-                        else if Set.member point pointsInFog then
-                            "#bdc3c7"
+                g
+                    [ onMouseOver (HoverPoint model point)
+                    , onClick <|
+                        if Set.member point model.obstacles then
+                            RemoveObstacle model point
                         else
-                            "white"
+                            InsertObstacle model point
                     ]
-                    []
-                , text_
-                    [ stroke "white"
-                    , fill "white"
-                    , x (toString <| centerX - 10)
-                    , y (toString <| centerY + 5)
-                    , Hattr.style
-                        [ ( "font-family", "monospace" )
-                        , ( "font-size", "18px" )
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , fill <|
+                            if model.hoverPoint == point && Set.member point model.obstacles then
+                                "#c0392b"
+                            else if Set.member point model.obstacles then
+                                "#e74c3c"
+                            else if point == ( 0, 0 ) then
+                                "#3498db"
+                            else if model.hoverPoint == point then
+                                "#f1c40f"
+                            else if Set.member point pointsInFog then
+                                "#bdc3c7"
+                            else
+                                "white"
+                        ]
+                        []
+                    , text_
+                        [ stroke "white"
+                        , fill "white"
+                        , x (toString <| centerX - 10)
+                        , y (toString <| centerY + 5)
+                        , Hattr.style
+                            [ ( "font-family", "monospace" )
+                            , ( "font-size", "18px" )
+                            ]
+                        ]
+                        [ text <|
+                            if point == ( 0, 0 ) then
+                                "👁"
+                            else
+                                ""
+                        ]
+                    , text_
+                        [ stroke "black"
+                        , fill "black"
+                        , x (toString <| centerX - 8)
+                        , y (toString <| centerY + 7)
+                        , Hattr.style
+                            [ ( "font-family", "monospace" )
+                            , ( "font-size", "24px" )
+                            ]
+                        ]
+                        [ text <|
+                            if Set.member point pointsInPath then
+                                "×"
+                            else
+                                ""
                         ]
                     ]
-                    [ text <|
-                        if point == ( 0, 0 ) then
-                            "👁"
-                        else
-                            ""
-                    ]
-                , text_
-                    [ stroke "black"
-                    , fill "black"
-                    , x (toString <| centerX - 8)
-                    , y (toString <| centerY + 7)
-                    , Hattr.style
-                        [ ( "font-family", "monospace" )
-                        , ( "font-size", "24px" )
-                        ]
-                    ]
-                    [ text <|
-                        if Set.member point pointsInPath then
-                            "×"
-                        else
-                            ""
-                    ]
-                ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewFogOfWarDemo : Demo -> Html Msg
@@ -1029,21 +1025,21 @@ viewFogOfWarDemo demo =
                 pointsInFog =
                     HexGrid.fogOfWar eye demo.obstacles demo.grid
               in
-              Html.pre
-                []
-                [ Html.text <| "eye = " ++ toString eye
-                , Html.br [] []
-                , Html.br [] []
-                , Html.text <| "obstacles = " ++ (toString <| Set.toList demo.obstacles)
-                , Html.br [] []
-                , Html.br [] []
-                , Html.text <|
-                    "HexGrid.fogOfWar "
-                        ++ toString eye
-                        ++ " obstacles grid"
-                , Html.br [] []
-                , Html.text <| "=> " ++ toString (Set.toList pointsInFog)
-                ]
+                Html.pre
+                    []
+                    [ Html.text <| "eye = " ++ toString eye
+                    , Html.br [] []
+                    , Html.br [] []
+                    , Html.text <| "obstacles = " ++ (toString <| Set.toList demo.obstacles)
+                    , Html.br [] []
+                    , Html.br [] []
+                    , Html.text <|
+                        "HexGrid.fogOfWar "
+                            ++ toString eye
+                            ++ " obstacles grid"
+                    , Html.br [] []
+                    , Html.text <| "=> " ++ toString (Set.toList pointsInFog)
+                    ]
             ]
         , div
             [ class "col-lg-6" ]
@@ -1081,66 +1077,66 @@ viewPathfinding model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onMouseOver (HoverPoint model point)
-                , onClick <|
-                    if Set.member point model.obstacles then
-                        RemoveObstacle model point
-                    else
-                        InsertObstacle model point
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , fill <|
-                        if model.hoverPoint == point && Set.member point model.obstacles then
-                            "#c0392b"
-                        else if Set.member point model.obstacles then
-                            "#e74c3c"
-                        else if point == ( 0, 0 ) then
-                            "#3498db"
-                        else if model.hoverPoint == point then
-                            "#f1c40f"
+                g
+                    [ onMouseOver (HoverPoint model point)
+                    , onClick <|
+                        if Set.member point model.obstacles then
+                            RemoveObstacle model point
                         else
-                            "white"
+                            InsertObstacle model point
                     ]
-                    []
-                , text_
-                    [ stroke "black"
-                    , fill "black"
-                    , x (toString <| centerX - 10)
-                    , y (toString <| centerY + 5)
-                    , Hattr.style
-                        [ ( "font-family", "monospace" )
-                        , ( "font-size", "18px" )
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , fill <|
+                            if model.hoverPoint == point && Set.member point model.obstacles then
+                                "#c0392b"
+                            else if Set.member point model.obstacles then
+                                "#e74c3c"
+                            else if point == ( 0, 0 ) then
+                                "#3498db"
+                            else if model.hoverPoint == point then
+                                "#f1c40f"
+                            else
+                                "white"
+                        ]
+                        []
+                    , text_
+                        [ stroke "black"
+                        , fill "black"
+                        , x (toString <| centerX - 10)
+                        , y (toString <| centerY + 5)
+                        , Hattr.style
+                            [ ( "font-family", "monospace" )
+                            , ( "font-size", "18px" )
+                            ]
+                        ]
+                        [ text <|
+                            if point == ( 0, 0 ) then
+                                "👁"
+                            else
+                                ""
+                        ]
+                    , text_
+                        [ stroke "black"
+                        , fill "black"
+                        , x (toString <| centerX - 8)
+                        , y (toString <| centerY + 7)
+                        , Hattr.style
+                            [ ( "font-family", "monospace" )
+                            , ( "font-size", "24px" )
+                            ]
+                        ]
+                        [ Svg.text <|
+                            if List.member point path && point /= ( 0, 0 ) then
+                                "×"
+                            else
+                                ""
                         ]
                     ]
-                    [ text <|
-                        if point == ( 0, 0 ) then
-                            "👁"
-                        else
-                            ""
-                    ]
-                , text_
-                    [ stroke "black"
-                    , fill "black"
-                    , x (toString <| centerX - 8)
-                    , y (toString <| centerY + 7)
-                    , Hattr.style
-                        [ ( "font-family", "monospace" )
-                        , ( "font-size", "24px" )
-                        ]
-                    ]
-                    [ Svg.text <|
-                        if List.member point path && point /= ( 0, 0 ) then
-                            "×"
-                        else
-                            ""
-                    ]
-                ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewPathfindingDemo : Demo -> Html Msg
@@ -1167,22 +1163,22 @@ viewPathfindingDemo demo =
                 path =
                     HexGrid.pathfind start destination demo.obstacles demo.grid
               in
-              Html.pre
-                []
-                [ Html.text <| "start = " ++ toString start
-                , Html.br [] []
-                , Html.text <| "destination = " ++ toString destination
-                , Html.br [] []
-                , Html.br [] []
-                , Html.text <|
-                    "HexGrid.pathfind "
-                        ++ toString start
-                        ++ " "
-                        ++ toString destination
-                        ++ " obstacles grid"
-                , Html.br [] []
-                , Html.text <| "=> " ++ toString path
-                ]
+                Html.pre
+                    []
+                    [ Html.text <| "start = " ++ toString start
+                    , Html.br [] []
+                    , Html.text <| "destination = " ++ toString destination
+                    , Html.br [] []
+                    , Html.br [] []
+                    , Html.text <|
+                        "HexGrid.pathfind "
+                            ++ toString start
+                            ++ " "
+                            ++ toString destination
+                            ++ " obstacles grid"
+                    , Html.br [] []
+                    , Html.text <| "=> " ++ toString path
+                    ]
             ]
         , div
             [ class "col-lg-6" ]
@@ -1224,64 +1220,64 @@ viewPathfindingWithCost model =
                 corners =
                     HexGrid.polygonCorners layout point
             in
-            g
-                [ onMouseOver (HoverPoint model point)
-                , onClick <|
-                    if Set.member point model.obstacles then
-                        RemoveObstacle model point
-                    else
-                        InsertObstacle model point
-                ]
-                [ polygon
-                    [ points (cornersToStr <| corners)
-                    , fill <|
-                        if model.hoverPoint == point && Set.member point model.obstacles then
-                            "#27ae60"
-                        else if Set.member point model.obstacles then
-                            "#2ecc71"
-                        else if point == ( 0, 0 ) then
-                            "#3498db"
-                        else if model.hoverPoint == point then
-                            "#f1c40f"
+                g
+                    [ onMouseOver (HoverPoint model point)
+                    , onClick <|
+                        if Set.member point model.obstacles then
+                            RemoveObstacle model point
                         else
-                            "white"
+                            InsertObstacle model point
                     ]
-                    []
-                , Svg.text_
-                    [ Sattr.stroke "black"
-                    , Sattr.fill "black"
-                    , Sattr.x (toString <| centerX - 10)
-                    , Sattr.y (toString <| centerY + 5)
-                    , Hattr.style
-                        [ ( "font-size", "18px" )
+                    [ polygon
+                        [ points (cornersToStr <| corners)
+                        , fill <|
+                            if model.hoverPoint == point && Set.member point model.obstacles then
+                                "#27ae60"
+                            else if Set.member point model.obstacles then
+                                "#2ecc71"
+                            else if point == ( 0, 0 ) then
+                                "#3498db"
+                            else if model.hoverPoint == point then
+                                "#f1c40f"
+                            else
+                                "white"
+                        ]
+                        []
+                    , Svg.text_
+                        [ Sattr.stroke "black"
+                        , Sattr.fill "black"
+                        , Sattr.x (toString <| centerX - 10)
+                        , Sattr.y (toString <| centerY + 5)
+                        , Hattr.style
+                            [ ( "font-size", "18px" )
+                            ]
+                        ]
+                        [ Svg.text <|
+                            if point == ( 0, 0 ) then
+                                "👁"
+                            else
+                                ""
+                        ]
+                    , Svg.text_
+                        [ Sattr.stroke "black"
+                        , Sattr.fill "black"
+                        , Sattr.x (toString <| centerX - 8)
+                        , Sattr.y (toString <| centerY + 7)
+                        , Hattr.style
+                            [ ( "font-size", "24px" )
+                            ]
+                        ]
+                        [ Svg.text <|
+                            if List.member point path && point /= ( 0, 0 ) then
+                                "×"
+                            else
+                                ""
                         ]
                     ]
-                    [ Svg.text <|
-                        if point == ( 0, 0 ) then
-                            "👁"
-                        else
-                            ""
-                    ]
-                , Svg.text_
-                    [ Sattr.stroke "black"
-                    , Sattr.fill "black"
-                    , Sattr.x (toString <| centerX - 8)
-                    , Sattr.y (toString <| centerY + 7)
-                    , Hattr.style
-                        [ ( "font-size", "24px" )
-                        ]
-                    ]
-                    [ Svg.text <|
-                        if List.member point path && point /= ( 0, 0 ) then
-                            "×"
-                        else
-                            ""
-                    ]
-                ]
     in
-    Svg.svg
-        []
-        (List.map renderPoint (Dict.toList dict))
+        Svg.svg
+            []
+            (List.map renderPoint (Dict.toList dict))
 
 
 viewPathfindingWithCostDemo : Demo -> Html Msg
@@ -1328,26 +1324,26 @@ viewPathfindingWithCostDemo demo =
                 path =
                     HexGrid.pathfindWithCost calcCost start destination demo.grid
               in
-              Html.pre
-                []
-                [ Html.text <| "start = " ++ toString start
-                , Html.br [] []
-                , Html.text <| "destination = " ++ toString destination
-                , Html.br [] []
-                , Html.text <| "calcCost point1 point2 = "
-                , Html.br [] []
-                , Html.text "  if isRoad point2 then 1 else 6"
-                , Html.br [] []
-                , Html.br [] []
-                , Html.text <|
-                    "HexGrid.pathfindWithCost calcCost "
-                        ++ toString start
-                        ++ " "
-                        ++ toString destination
-                        ++ " grid"
-                , Html.br [] []
-                , Html.text <| "=> " ++ toString path
-                ]
+                Html.pre
+                    []
+                    [ Html.text <| "start = " ++ toString start
+                    , Html.br [] []
+                    , Html.text <| "destination = " ++ toString destination
+                    , Html.br [] []
+                    , Html.text <| "calcCost point1 point2 = "
+                    , Html.br [] []
+                    , Html.text "  if isRoad point2 then 1 else 6"
+                    , Html.br [] []
+                    , Html.br [] []
+                    , Html.text <|
+                        "HexGrid.pathfindWithCost calcCost "
+                            ++ toString start
+                            ++ " "
+                            ++ toString destination
+                            ++ " grid"
+                    , Html.br [] []
+                    , Html.text <| "=> " ++ toString path
+                    ]
             ]
         , div
             [ class "col-lg-6" ]
