@@ -1,11 +1,9 @@
-var webpack = require('webpack')
-var path = require("path");
+const webpack = require('webpack')
+const path = require('path')
 
 module.exports = {
   entry: {
-    app: [
-      './src/index.js'
-    ]
+    app: ['./src/index.js'],
   },
 
   output: {
@@ -17,20 +15,17 @@ module.exports = {
     rules: [
       {
         test: /\.(css|scss)$/,
-        use: [
-          'style-loader',
-          'css-loader',
-        ]
+        use: ['style-loader', 'css-loader'],
       },
       {
-        test:    /\.html$/,
+        test: /\.html$/,
         exclude: /node_modules/,
-        loader:  'file-loader?name=[name].[ext]',
+        loader: 'file-loader?name=[name].[ext]',
       },
       {
-        test:    /\.elm$/,
+        test: /\.elm$/,
         exclude: [/elm-stuff/, /node_modules/],
-        loader:  'elm-webpack-loader?verbose=true&warn=true',
+        loader: 'elm-webpack-loader?verbose=true&warn=true',
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -58,6 +53,4 @@ module.exports = {
     inline: true,
     stats: { colors: true },
   },
-
-
-};
+}
